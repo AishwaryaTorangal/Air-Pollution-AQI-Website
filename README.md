@@ -45,15 +45,15 @@ The system is designed with scalability in mind and can be extended to include:
   
 ## Output
 
-<img src="https://github.com/user-attachments/assets/eefabb05-cdc5-4c92-a46a-1e5e1e5e3498" width="900" height="600" />
+<img src="https://github.com/user-attachments/assets/eefabb05-cdc5-4c92-a46a-1e5e1e5e3498" width="500" height="500" />
 
-<img src="https://github.com/user-attachments/assets/b776c016-0437-4de4-8be8-95328c63fafe" width="900" height="600" />
+<img src="https://github.com/user-attachments/assets/b776c016-0437-4de4-8be8-95328c63fafe" width="500" height="500" />
 
-<img src="https://github.com/user-attachments/assets/c265d6f6-618c-48bd-8f41-3c1abf308d35" width="900" height="650" />
+<img src="https://github.com/user-attachments/assets/c265d6f6-618c-48bd-8f41-3c1abf308d35" width="500" height="500" />
 
-<img src="https://github.com/user-attachments/assets/0f73ae9b-a731-46b8-abd0-fce2e6aa74f9" width="900" height="650" />
+<img src="https://github.com/user-attachments/assets/0f73ae9b-a731-46b8-abd0-fce2e6aa74f9" width="500" height="500" />
 
-<img src="https://github.com/user-attachments/assets/d9d3ef40-cec2-45ce-803c-859d98558b5b" width="1200" height="720" />
+<img src="https://github.com/user-attachments/assets/d9d3ef40-cec2-45ce-803c-859d98558b5b" width="600" height="360" />
 
 ## Conclusion
 The Pollution AQI Website serves as a digital tool for proactive air quality management and environmental education. By empowering individuals and communities with real-time data and meaningful insights, the application supports advocacy for cleaner air and healthier living environments.
