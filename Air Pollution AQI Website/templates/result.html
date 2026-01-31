@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Pollution AQI Website</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI';
+        }
+        .card-soft {
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+        }
+        .location-header {
+            background: linear-gradient(135deg, #3c5adc, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            margin: -20px -20px 20px -20px;
+        }
+        .chart-container,
+        .history-table {
+            background: rgba(255,255,255,0.85);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            margin-top: 20px;
+        }
+        .history-table th {
+            background: #764ba2;
+            color: white;
+        }
+        .btn-back {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 30px;
+            border-radius: 12px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container py-5">
+<div class="row justify-content-center">
+<div class="col-lg-10">
+<div class="card-soft">
+
+<div class="location-header text-center">
+    <h2><i class="fa-solid fa-location-dot"></i> {{ data.city }}</h2>
+    <div id="aqiBox" class="fw-bold"
+         style="padding:12px;border-radius:14px;font-size:22px;width:280px;margin:auto;">
+        AQI: {{ data.aqi }} — {{ data.category }}
+    </div>
+</div>
+
+<div class="row">
+<div class="col-md-6">
+<h4 class="text-center"><i class="fa-solid fa-wind"></i> Air Quality Details</h4>
+
+<div class="d-flex justify-content-around">
+<div>
+<p>😷 <b>PM2.5:</b> {{ data.pm25 }}</p>
+<p>🚬 <b>PM10:</b> {{ data.pm10 }}</p>
+<p>💀 <b>CO:</b> {{ data.co }}</p>
+<p>☀️ <b>Temp:</b> {{ data.temp }}°C</p>
+</div>
+<div>
+<p>🛡️ <b>O₃:</b> {{ data.o3 }}</p>
+<p>🏭 <b>NO₂:</b> {{ data.no2 }}</p>
+<p>🧪 <b>SO₂:</b> {{ data.so2 }}</p>
+<p>💧 <b>Humidity:</b> {{ data.humidity }}%</p>
+</div>
+</div>
+
+<div class="alert alert-warning mt-3" style="white-space: pre-line;">
+<b>❤️ Health Tips</b><br>{{ tip }}
+</div>
+</div>
+
+<div class="col-md-6">
+{% if data.lat and data.lon %}
+<iframe class="rounded w-100" height="630"
+src="https://www.google.com/maps?q={{ data.lat }},{{ data.lon }}&z=11&output=embed"></iframe>
+{% endif %}
+</div>
+</div>
+
+{% if history %}
+<h4 class="mt-4"><i class="fa-solid fa-chart-line"></i> PM2.5 Trends</h4>
+<div class="chart-container">
+<canvas id="pmChart"></canvas>
+</div>
+
+<h4 class="mt-4"><i class="fa-solid fa-clock-rotate-left"></i> 7 Days AQI Data</h4>
+<div class="history-table">
+<table class="table table-bordered text-center">
+<thead>
+<tr>
+<th>Time</th><th>PM2.5</th><th>PM10</th><th>CO</th><th>NO₂</th><th>SO₂</th><th>O₃</th>
+</tr>
+</thead>
+<tbody>
+{% for i in range(history.time|length) %}
+<tr>
+<td>{{ history.time[i] }}</td>
+<td>{{ history.pm25[i] }}</td>
+<td>{{ history.pm10[i] }}</td>
+<td>{{ history.co[i] }}</td>
+<td>{{ history.no2[i] }}</td>
+<td>{{ history.so2[i] }}</td>
+<td>{{ history.o3[i] }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+<div class="text-center mt-4">
+<a href="{{ url_for('index') }}" class="btn btn-back">
+<i class="fa-solid fa-arrow-left"></i> Back to Search
+</a>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% if history %}
+<script>
+const chartLabels = JSON.parse('{{ history.time | tojson }}');
+const chartValues = JSON.parse('{{ history.pm25 | tojson }}');
+
+new Chart(document.getElementById("pmChart"), {
+    type: "line",
+    data: {
+        labels: chartLabels,
+        datasets: [{
+            label: " AQI data ",
+            data: chartValues,
+            borderColor: "red",
+            backgroundColor: "rgba(255,0,0,0.2)",
+            borderWidth: 3,
+            tension: 0.3
+        }]
+    }
+});
+</script>
+{% endif %}
+
+<script>
+const aqiValue = Number('{{ data.aqi }}');
+const box = document.getElementById("aqiBox");
+
+if (aqiValue <= 50) box.style.background = "#4CAF50";
+else if (aqiValue <= 100) { box.style.background = "#FFEB3B"; box.style.color = "#000"; }
+else if (aqiValue <= 150) box.style.background = "#FF9800";
+else if (aqiValue <= 200) box.style.background = "#F44336";
+else if (aqiValue <= 300) box.style.background = "#9C27B0";
+else box.style.background = "#4A148C";
+</script>
+
+</body>
+</html>

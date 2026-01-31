@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Air Pollution AQI Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --gray: #95a5a6;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+        }
+        
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .navbar-nav {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-link {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            color: var(--dark);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--primary);
+        }
+        
+        .nav-link.btn-register {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+        }
+        
+        .nav-link.btn-register:hover {
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-soft {
+            border: none;
+            border-radius: 16px;
+        }
+        
+        .p-4 {
+            padding: 2rem;
+        }
+        
+        .mt-4 {
+            margin-top: 1.5rem;
+        }
+        
+        .mb-3 {
+            margin-bottom: 1rem;
+        }
+        
+        .mb-4 {
+            margin-bottom: 1.5rem;
+        }
+        
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 2.2rem;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-muted {
+            color: var(--gray);
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+        
+        .col-md-4 {
+            flex: 0 0 33.333333%;
+            max-width: 33.333333%;
+            padding: 0 15px;
+        }
+        
+        .fa-2x {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .text-primary {
+            color: var(--primary);
+        }
+        
+        .text-success {
+            color: var(--secondary);
+        }
+        
+        .text-danger {
+            color: var(--danger);
+        }
+        
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ddd, transparent);
+            margin: 2rem 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            border-radius: 50px;
+            transition: var(--transition);
+            text-decoration: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn-primary {
+            color: white;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+        }
+        
+        .feature-card {
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: var(--transition);
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .feature-card p {
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0;
+        }
+        
+        /* Animation for icons */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .fa-wind, .fa-chart-line, .fa-map-location-dot {
+            animation: float 5s ease-in-out infinite;
+        }
+        
+        .fa-wind {
+            animation-delay: 0s;
+        }
+        
+        .fa-chart-line {
+            animation-delay: 1.5s;
+        }
+        
+        .fa-map-location-dot {
+            animation-delay: 3s;
+        }
+        
+        /* Header decoration */
+        .header-decoration {
+            height: 4px;
+            width: 80px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            margin: 0 auto 20px;
+            border-radius: 2px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .col-md-4 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .navbar-nav {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .nav-item {
+                margin: 0 0.5rem;
+            }
+            
+            .col-md-4 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .p-4 {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .footer p {
+            margin-bottom: 0;
+            color: var(--light);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <i class="fa-solid fa-wind"></i> AQI Website
+        </a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="{{ url_for('awarness') }}" class="nav-link">Awarness</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('about') }}" class="nav-link">About</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('register') }}" class="nav-link btn-register">Register</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="card card-soft p-4 mt-4">
+            <h2 class="mb-3 text-center">
+                <i class="fa-solid fa-cloud-sun"></i>
+                Welcome To The Air Pollution AQI Website 
+            </h2>
+            
+            <div class="header-decoration"></div>
+            
+            <p class="text-muted text-center mb-4">
+                Monitor real-time air quality, check pollution levels, view 7-days AQI data,
+                explore maps, and get health recommendations.
+            </p>
+
+            <div class="row text-center mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="feature-card">
+                        <i class="fa-solid fa-wind fa-2x text-primary"></i>
+                        <p><b>Real-Time AQI</b></p>
+                        <p class="text-muted small mt-2">Get real time air quality index data for your location with colour indicators</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="feature-card">
+                        <i class="fa-solid fa-chart-line fa-2x text-success"></i>
+                        <p><b>7-Days AQI Data</b></p>
+                        <p class="text-muted small mt-2">Plan ahead based on the historical and future AQI data visualization </p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="feature-card">
+                        <i class="fa-solid fa-map-location-dot fa-2x text-danger"></i>
+                        <p><b>Global Maps View</b></p>
+                        <p class="text-muted small mt-2">Visualize the location and surrounding zones for easier analysis</p>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="text-center mt-4">
+                <a href="{{ url_for('predict') }}" class="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-magnifying-glass-location"></i> Go to AQI Prediction
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 AQI Website - The Air Pollution AQI Website. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
